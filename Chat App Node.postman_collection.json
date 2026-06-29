@@ -1,0 +1,1395 @@
+{
+  "info": {
+    "_postman_id": "29d0eee0-58ba-424b-839b-4a96d9ab419b",
+    "name": "Chat App Node",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51616804",
+    "_collection_link": "https://go.postman.co/collection/51616804-29d0eee0-58ba-424b-839b-4a96d9ab419b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Sign-Up",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "// Test: Status code\r",
+                  "pm.test(\"Status code is 200 for successful signup\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Test: Only check user data if signup succeeded\r",
+                  "pm.test(\"Signup response has success structure\", function () {\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", true);\r",
+                  "    pm.expect(jsonData).to.have.property(\"message\");\r",
+                  "\r",
+                  "    if (jsonData.data && jsonData.data.user) {\r",
+                  "        pm.expect(jsonData.data.user).to.have.property(\"email\");\r",
+                  "        pm.expect(jsonData.data.user).to.have.property(\"id\");\r",
+                  "        console.log(\"User email:\", jsonData.data.user.email);\r",
+                  "    } else {\r",
+                  "        console.log(\"User object not returned. Signup may have failed.\");\r",
+                  "    }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"password\": \"password123\",\r\n  \"confirmPassword\": \"password123\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/signup",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "auth",
+                "signup"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify-Email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "// Test: Status code 200 for successful verification\r",
+                  "pm.test(\"Status code is 200 for successful email verification\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Test: Response has success structure\r",
+                  "pm.test(\"Email verification response structure\", function () {\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", true);\r",
+                  "    pm.expect(jsonData).to.have.property(\"message\");\r",
+                  "    pm.expect(jsonData).to.have.property(\"data\");\r",
+                  "    \r",
+                  "    // Optional: check if email field exists in data\r",
+                  "    if (jsonData.data && jsonData.data.email) {\r",
+                  "        pm.expect(jsonData.data.email).to.be.a(\"string\");\r",
+                  "        console.log(\"Verified email:\", jsonData.data.email);\r",
+                  "    } else {\r",
+                  "        console.log(\"Email not returned in response\");\r",
+                  "    }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"token\": \"e92534c01be11c5285ba037d8341189e006a399e3e2524a9c124e40eb6eff360\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/auth/verify",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "verify"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "// Test: Status code 200 for successful verification\r",
+                  "pm.test(\"Status code is 200 for successful email verification\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Test: Response has success structure\r",
+                  "pm.test(\"Email verification response structure\", function () {\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", true);\r",
+                  "    pm.expect(jsonData).to.have.property(\"message\");\r",
+                  "    pm.expect(jsonData).to.have.property(\"data\");\r",
+                  "    \r",
+                  "    // Optional: check if email field exists in data\r",
+                  "    if (jsonData.data && jsonData.data.email) {\r",
+                  "        pm.expect(jsonData.data.email).to.be.a(\"string\");\r",
+                  "        console.log(\"Verified email:\", jsonData.data.email);\r",
+                  "    } else {\r",
+                  "        console.log(\"Email not returned in response\");\r",
+                  "    }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"ahmedraxa@example.com\",\r\n  \"password\": \"password123\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/auth/login",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "// Test: Status code 200\r",
+                  "pm.test(\"Status code is 200 for successful logout\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Test: Response has success structure\r",
+                  "pm.test(\"Logout response structure is correct\", function () {\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", true);\r",
+                  "    pm.expect(jsonData).to.have.property(\"message\");\r",
+                  "\r",
+                  "    console.log(\"Logout successful:\", jsonData.message);\r",
+                  "\r",
+                  "    // Optional: Clear the access token from environment\r",
+                  "    pm.environment.unset(\"access_token\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_URL}}/api/auth/logout",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forget-Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "// Test: Status code 200 for valid email submission\r",
+                  "pm.test(\"Status code is 200 for forgot password request\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Test: Response has success structure\r",
+                  "pm.test(\"Forgot password response structure\", function () {\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", true);\r",
+                  "    pm.expect(jsonData).to.have.property(\"message\");\r",
+                  "    console.log(\"Forgot password request successful:\", jsonData.message);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"zainul@example.com\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/auth/forget",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "forget"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset-Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "// Test: Status code 200 for successful password reset\r",
+                  "pm.test(\"Status code is 200 for successful password reset\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Test: Response has success structure\r",
+                  "pm.test(\"Reset password response structure\", function () {\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", true);\r",
+                  "    pm.expect(jsonData).to.have.property(\"message\");\r",
+                  "    console.log(\"Password reset successful:\", jsonData.message);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"token\": \"6664ba8675876f8271b328d67da9041846fbde12de607abc20f1109e0aec4a12\",\r\n  \"password\": \"newpassword123\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/auth/reset",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "reset"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Workspaces",
+      "item": [
+        {
+          "name": "Read All",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"workspace_id\": \"69c64dcea000c70aa76dd9bb\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/workspaces/read",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "workspaces",
+                "read"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Workspace",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \r\n    \"name\": \"Azln Wokrspace\", \r\n    \"description\": \"Azlan description\" \r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/workspaces/create",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "workspaces",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Workspace",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"workspace_id\" : \"{{workspace_id}}\",\r\n    \"name\": \"UpdatedDev Workspace Name\",\r\n    \"description\": \"Updated\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/workspaces/update",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "workspaces",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Workspace",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{login_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"workspace_id\": \"{{workspace_id}}\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/workspaces/delete",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "workspaces",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Member Workspace",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"workspace_id\": \"{{workspace_id}}\",\r\n    \"members\": [\"{{member_id}}\"]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/workspaces/add-member",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "workspaces",
+                "add-member"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Member",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"workspace_id\": \"{{workspace_id}}\",\r\n    \"members\": [\"{{member_id}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/workspaces/remove-member",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "workspaces",
+                "remove-member"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "invite-member",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"workspace_id\": \"{{workspace_id}}\",\r\n    \"members\": [\"ahsanali@example.com\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/workspaces/invite-member",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "workspaces",
+                "invite-member"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Teams",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Ahmed Teams\",\r\n  \"description\": \"Azlan Developers\",\r\n  \"workspace_id\": \"{{workspace_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/teams/create",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show Team",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \r\n    \"team_id\": \"{{team_id}}\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/teams/read",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "read"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Team",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"AzlanAhsan Developers\",\r\n  \"description\": \"Azlan Ahsan engineers\",\r\n  \"team_id\": \"{{team_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/teams/update",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Member",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"team_id\": \"{{team_id}}\",\r\n    \"members\": [\"{{member_id}}\"]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/teams/add-member",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "add-member"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Team",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \r\n    \"team_id\": \"{{team_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/teams/delete",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Member",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"team_id\": \"{{team_id}}\",\r\n    \"members\": [\"{{member_id}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/teams/remove-member",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "teams",
+                "remove-member"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Channels",
+      "item": [
+        {
+          "name": "Create Channel",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Azlan Developer\",\r\n    \"workspace_id\": \"{{workspace_id}}\",\r\n    \"team_id\": \"{{team_id}}\",\r\n    \"type\": \"public\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/channels/create",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "channels",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"channel_id\": \"{{channel_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/channels/read",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "channels",
+                "read"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Members",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"channel_id\":\"{{channel_id}}\",\r\n  \"user_id\": \"{{member_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/channels/add-member",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "channels",
+                "add-member"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Member",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"channel_id\":\"{{channel_id}}\",\r\n  \"user_id\": \"{{member_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/channels/remove-member",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "channels",
+                "remove-member"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Channel",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"channel_id\":\"{{channel_id}}\",\r\n  \"name\": \"Update Azlan\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/channels/update",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "channels",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Channel",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"channel_id\":\"{{channel_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/channels/delete",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "channels",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Direct Channel",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"workspace_id\": \"{{workspace_id}}\",\r\n    \"direct_user_id\": \"{{member_id}}\",\r\n    \"type\": \"public\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/channels/create",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "channels",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"channelId\":\"{{channel_id}}\",\r\n  \"content\": \"Hello Zain\",\r\n  \"type\": \"text\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/messages/create",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "messages",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"messageId\":\"{{message_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/messages/read",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "messages",
+                "read"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"messageId\":\"{{message_id}}\",\r\n  \"content\": \"Update Content\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/messages/update",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "messages",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"messageId\":\"{{message_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/messages/delete",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "messages",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "File",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "channelId",
+                  "value": "{{channel_id}}",
+                  "type": "text",
+                  "uuid": "e6c90067-1754-4fdf-ae5d-ebbae92444d3"
+                },
+                {
+                  "key": "type",
+                  "value": "file",
+                  "type": "text",
+                  "uuid": "d752c55a-50ce-442b-b91f-891a3c60d764"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "0e2a7290-af2b-4e39-b83f-882e2fd62978",
+                  "src": "/C:/Users/arish/Downloads/IMG_20260314_161422_252.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/messages/create",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "messages",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Download File",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{user_login}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"messageId\": {message_id}\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_URL}}/api/messages/read",
+              "host": [
+                "{{base_URL}}"
+              ],
+              "path": [
+                "api",
+                "messages",
+                "read"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

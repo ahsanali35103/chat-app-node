@@ -1,0 +1,28 @@
+﻿Loading ActivityLogModel...
+ActivityLogModel loaded successfully.
+Server started on port 5000
+MongoDB Connected...
+node.exe : [2026-04-03T07:47:46.212Z] ERROR: Invalid credentials.
+At line:1 char:27
++ ... M node.exe; & 'C:\Program Files\nodejs\node.exe' src/app.js 2>&1 | Ou ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([2026-04-03T07:...id credentials.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Stack: Error: Invalid credentials.
+    at C:\xampp\htdocs\node_project\src\middlewares\auth\CheckLoginMiddleware.js:11:21
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+Writing error log to MongoDB...
+[2026-04-03T07:47:46.243Z] WARN: POST /api/auth/login - Status: 400 - Time: 191ms
+Writing warn log to MongoDB...
+MongoDB log write completed.
+MongoDB log write completed.
+[2026-04-03T07:50:02.617Z] INFO: POST /api/auth/login - Status: 200 - Time: 1882ms
+Writing info log to MongoDB...
+MongoDB log write completed.
+[2026-04-03T07:55:31.927Z] INFO: POST /api/auth/login - Status: 200 - Time: 797ms
+Writing info log to MongoDB...
+MongoDB log write completed.
+[2026-04-03T09:55:17.735Z] INFO: POST /api/auth/login - Status: 200 - Time: 1826ms
+Writing info log to MongoDB...
+MongoDB log write completed.
